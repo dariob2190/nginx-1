@@ -45,3 +45,30 @@ sudo chmod -R 755 /var/www/luisdario.test
 Podemos comprobar con un `ls -l` que los permisos y el propietario se han aplicado correctamente:
 
 ![Captura de la comprobación de los permisos de nginx](./capturas/captura2.png)
+
+Si ahora accedemos a la IP de nuestra máquina, veremos la página por defecto de Nginx, lo que demuestra que todo es correcto hasta ahora.
+
+![Captura de la página de ejemplo de nginx](./capturas/captura3.png)
+
+## 3. Configuración de servidor web NGINX
+
+Para que Nginx presente el contenido de nuestra web, es necesario crear un bloque de servidor. En vez de modificar el archivo `default`, crearemos uno nuevo en la carpeta `sites-available`.
+
+Ejecutamos `sudo nano /etc/nginx/sites-available/luisdario.test` y lo rellenamos con el siguiente contenido.
+
+```
+server {
+    listen 80;
+    listen [::]:80;
+
+    root /var/www/luisdario.test/html/static-website-example;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name luisdario.test;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+```
