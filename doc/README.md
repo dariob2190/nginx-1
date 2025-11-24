@@ -72,3 +72,29 @@ server {
     }
 }
 ```
+
+Ahora vamos a crear un enlace simbólico entre este archivo y la carpeta de sitios habilitados (`sites-enabled`), para que se dé de alta automáticamente.
+
+```
+sudo ln -s /etc/nginx/sites-available/luisdario.test /etc/nginx/sites-enabled/
+```
+
+Y reiniciamos el servidor para aplicar la configuración:
+
+```
+sudo systemctl restart nginx
+```
+
+## 4. Comprobaciones
+
+Para comprobar que podemos acceder por el nombre necesitaremos un servidor DNS. Podemos ahorrarnos este paso si directamente en la configuración de los hosts del sistema operativo añadimos la dirección.
+
+Ahora, si entramos al navegador y ponemos `http://luisdario.test`, nos debería cargar la página web que hemos clonado en lugar de la de defecto de Nginx:
+
+![Captura de la página clonada con nuestra dirección correcta](./capturas/captura4.png)
+
+Por último, vamos a comprobar que las peticiones se están registrando correctamente en los archivos de logs.
+
+Podemos ver el registro de accesos con `sudo cat /var/log/nginx/access.log`:
+
+![Captura de los logs de nginx](./capturas/captura5.png)
